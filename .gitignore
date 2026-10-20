@@ -1,0 +1,19 @@
+# Python virtual environment
+fastapienv/
+venv/
+.venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Local SQLite database
+*.db
+*.sqlite
+*.sqlite3
+
+# Environment variables and secrets
+.env
+
+# macOS files
+.DS_Store

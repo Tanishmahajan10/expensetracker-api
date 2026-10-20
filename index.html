@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Expense Tracker</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>💸 Expense Tracker</h1>
+    <span id="apiStatus" class="status">checking API…</span>
+  </header>
+
+  <main class="layout">
+    <!-- Summary cards -->
+    <section class="cards">
+      <div class="card">
+        <div class="card-label">Selected month</div>
+        <div class="card-value" id="monthTotal">–</div>
+        <div class="card-controls">
+          <input type="number" id="sumYear" min="2000" max="2100" />
+          <select id="sumMonth"></select>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Shown in list</div>
+        <div class="card-value" id="listTotal">–</div>
+        <div class="card-sub" id="listCount">0 expenses</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Category total</div>
+        <div class="card-value" id="catTotal">–</div>
+        <div class="card-controls">
+          <input type="text" id="catName" placeholder="e.g. Food" />
+          <button id="catBtn" class="btn small">Go</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="grid">
+      <!-- Left column -->
+      <div class="col">
+        <section class="panel">
+          <h2>Add expense</h2>
+          <form id="addForm" class="form">
+            <label>Amount (₹)
+              <input type="number" step="0.01" min="0" name="amount" required />
+            </label>
+            <label>Category
+              <input type="text" name="category" list="categoryList" required />
+              <datalist id="categoryList"></datalist>
+            </label>
+            <label>Date
+              <input type="date" name="date" required />
+            </label>
+            <label>Description <small>(optional)</small>
+              <input type="text" name="description" />
+            </label>
+            <button class="btn primary" type="submit">Add expense</button>
+          </form>
+        </section>
+
+        <section class="panel">
+          <h2>By category</h2>
+          <div id="catChart" class="bars"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <h2>Monthly totals</h2>
+            <input type="number" id="yearInput" min="2000" max="2100" class="year" />
+          </div>
+          <div id="yearChart" class="bars"></div>
+        </section>
+      </div>
+
+      <!-- Right column -->
+      <div class="col wide">
+        <section class="panel">
+          <div class="panel-head">
+            <h2>Expenses</h2>
+          </div>
+          <form id="filterForm" class="filters">
+            <input type="text" id="fCategory" placeholder="Category" list="categoryList" />
+            <input type="date" id="fStart" title="Start date" />
+            <input type="date" id="fEnd" title="End date" />
+            <button class="btn" type="submit">Apply</button>
+            <button class="btn ghost" type="button" id="resetBtn">Reset</button>
+          </form>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th data-sort="date">Date ↕</th>
+                  <th data-sort="category">Category ↕</th>
+                  <th data-sort="description">Description</th>
+                  <th data-sort="amount" class="num">Amount ↕</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="rows"></tbody>
+            </table>
+            <div id="empty" class="empty hidden">No expenses found.</div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <!-- Edit dialog -->
+  <dialog id="editDialog">
+    <form method="dialog" id="editForm" class="form">
+      <h2>Edit expense</h2>
+      <input type="hidden" name="id" />
+      <label>Amount (₹)
+        <input type="number" step="0.01" min="0" name="amount" required />
+      </label>
+      <label>Category
+        <input type="text" name="category" list="categoryList" required />
+      </label>
+      <div class="dialog-actions">
+        <button class="btn ghost" type="button" id="editCancel">Cancel</button>
+        <button class="btn primary" type="submit">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast hidden"></div>
+  <script src="app.js"></script>
+</body>
+</html>
